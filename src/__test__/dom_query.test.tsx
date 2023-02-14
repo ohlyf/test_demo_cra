@@ -9,6 +9,18 @@ describe("tests for DOM查询", () => {
     const getAllElement = screen.getAllByText(/test/i);
     const queryElement = screen.queryByText("test3");
     const queryAllElement = screen.queryAllByText("test3");
-    debugger;
+    // debugger;
+  });
+  test("default role", () => {
+    render(<DomQuery />);
+    const button = screen.getByRole("button", { pressed: true });
+    const btn = screen.getByRole("tab");
+    const btn1 = screen.getByRole("button", {
+      description: "自定义aria按钮",
+    });
+  });
+  test("aria-label", () => {
+    render(<DomQuery />);
+    const note = screen.getByRole("generic", { name: "test_note" });
   });
 });
