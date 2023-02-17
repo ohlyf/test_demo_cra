@@ -18,18 +18,24 @@ describe("test for DOM断言", () => {
 
   test("form validation without semi", () => {
     render(<DomExpect />);
-    const form = screen.getByRole("form");
-    const username = screen.getByRole("textbox");
-    const age = screen.getByRole("spinbutton");
-    const manCheckbox = screen.getByRole("radio", { checked: true });
-    const womanCHeckbox = screen.getByRole("radio", { checked: false });
+    const form = screen.getByRole("form", { name: "form" });
+    const username = screen.getByRole("textbox", { name: "form_username" });
+    const age = screen.getByRole("spinbutton", { name: "form_age" });
+    const manCheckbox = screen.getByRole("radio", {
+      checked: true,
+      name: "form_sex",
+    });
+    const womanCheckbox = screen.getByRole("radio", {
+      checked: false,
+      name: "form_sex",
+    });
     expect(username).toBeDisabled();
     expect(age).toBeEnabled();
     expect(age).toBeRequired();
     age.focus();
     expect(age).toHaveFocus();
     expect(manCheckbox).toBeChecked();
-    expect(womanCHeckbox).not.toBeChecked();
+    expect(womanCheckbox).not.toBeChecked();
     expect(form).toHaveFormValues({
       username: "alien",
       age: 23,
@@ -38,6 +44,26 @@ describe("test for DOM断言", () => {
     expect(age).toHaveValue(23);
   });
 
+  test("visible validation with semi", () => {
+    render(<DomExpect />);
+    const form = screen.getByRole("form", { name: "semi-form" });
+    const username = screen.getByLabelText("username");
+    const age = screen.getByLabelText("age");
+    const sex = screen.getByLabelText("sex");
+    const hobby = screen.getByLabelText("hobby");
+    expect(username).toBeDisabled();
+    expect(age).toBeEnabled();
+    expect(age).toBeRequired();
+    age.focus();
+    expect(age).toHaveFocus();
+    expect(username).toHaveValue("alien");
+    // expect(form).toHaveFormValues({
+    //   username: "alien",
+    //   age: "23",
+    //   sex: "man",
+    //   hobby: "code",
+    // });
+  });
   test("code validation", () => {
     render(<DomExpect />);
     const [x, y, hiddenNote] = screen.getAllByRole("note", { hidden: true });
