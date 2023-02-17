@@ -37,4 +37,12 @@ describe("test for DOM断言", () => {
     });
     expect(age).toHaveValue(23);
   });
+
+  test("code validation", () => {
+    render(<DomExpect />);
+    const [x, y, hiddenNote] = screen.getAllByRole("note", { hidden: true });
+    expect(hiddenNote).toHaveAttribute("aria-hidden");
+    expect(hiddenNote).toHaveClass("hidden");
+    expect(hiddenNote).toHaveStyle("display:none");
+  });
 });
